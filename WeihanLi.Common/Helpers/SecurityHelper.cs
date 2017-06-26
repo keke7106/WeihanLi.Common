@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace WeihanLi.Common.Helpers
 {
@@ -10,6 +11,115 @@ namespace WeihanLi.Common.Helpers
     /// </summary>
     public static class SecurityHelper
     {
+        //防SQL注入正则表达式1
+        private static readonly Regex _sqlkeywordregex1 = new Regex(@"(select|insert|delete|from|count\(|drop|table|update|truncate|asc\(|mid\(|char\(|xp_cmdshell|exec|master|net|local|group|administrators|user|or|and)", RegexOptions.IgnoreCase);
+        //防SQL注入正则表达式2
+        private static readonly Regex _sqlkeywordregex2 = new Regex(@"(select|insert|delete|from|count\(|drop|table|update|truncate|asc\(|mid\(|char\(|xp_cmdshell|exec|master|net|local|group|administrators|user|or|and|-|;|,|\(|\)|\[|\]|\{|\}|%|@|\*|!|\')", RegexOptions.IgnoreCase);
+
+        private static char[] constant = new char[]
+        {
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
+        };
+
+        private static char[] constantNumber = new char[]
+        {
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9'
+        };        
+
+        /// <summary>
+        /// 生成随机验证码
+        /// </summary>
+        /// <param name="length">验证码长度</param>
+        /// <param name="isNumberOnly">验证码是否是纯数字</param>
+        /// <returns></returns>
+        public static string GenerateRandomCode(int length, bool isNumberOnly = false)
+        {
+            int num;
+            char[] array;
+            if (isNumberOnly)
+            {
+                num = 10;
+                array = constantNumber;
+            }
+            else
+            {
+                num = 36;
+                array = constant;
+            }
+            StringBuilder stringBuilder = new StringBuilder(num);
+            Random random = new Random();
+            for (int i = 0; i < length; i++)
+            {
+                stringBuilder.Append(array[random.Next(num)]);
+            }
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// 判断当前字符串是否存在SQL注入
+        /// </summary>
+        /// <param name="isStrict">是否严格控制</param>
+        /// <returns></returns>
+        public static bool IsSafeSqlString(string s, bool isStrict = true)
+        {
+            if (s != null)
+            {
+                if (isStrict)
+                {
+                    return !_sqlkeywordregex2.IsMatch(s);
+                }
+                else
+                {
+                    return !_sqlkeywordregex1.IsMatch(s);
+                }  
+            }
+            return true;
+        }
+
         /// <summary>
         /// MD5加密
         /// </summary>

@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data;
+#if NET45
+using System.Data;    
+#endif
 using System.IO;
 using System.Reflection;
 
@@ -103,5 +105,170 @@ namespace WeihanLi.Common.Helpers
         {
             return value > 0;
         }
+
+        #region 转Int
+
+        /// <summary>
+        /// 将string类型转换成int类型
+        /// </summary>
+        /// <param name="s">目标字符串</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static int StringToInt(string s, int defaultValue=0)
+        {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                int result;
+                if (int.TryParse(s, out result))
+                    return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将object类型转换成int类型
+        /// </summary>
+        /// <param name="s">目标对象</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static int ObjectToInt(object o, int defaultValue=0)
+        {
+            if (o != null)
+                return StringToInt(o.ToString(), defaultValue);
+
+            return defaultValue;
+        }
+        #endregion
+
+        #region 转Bool
+
+        /// <summary>
+        /// 将string类型转换成bool类型
+        /// </summary>
+        /// <param name="s">目标字符串</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static bool StringToBool(string s, bool defaultValue = false)
+        {
+            if (String.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+            if (s == "false")
+            {
+                return false;
+            }
+            else if (s == "true")
+            {
+                return true;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将object类型转换成bool类型
+        /// </summary>
+        /// <param name="s">目标对象</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static bool ObjectToBool(object o, bool defaultValue = false)
+        {
+            if (o != null)
+                return StringToBool(o.ToString(), defaultValue);
+
+            return defaultValue;
+        }
+
+        #endregion
+
+        #region 转DateTime
+
+        /// <summary>
+        /// 将string类型转换成datetime类型
+        /// </summary>
+        /// <param name="s">目标字符串</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static DateTime StringToDateTime(string s, DateTime defaultValue)
+        {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                DateTime result;
+                if (DateTime.TryParse(s, out result))
+                    return result;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将string类型转换成datetime类型
+        /// </summary>
+        /// <param name="s">目标字符串</param>
+        /// <returns></returns>
+        public static DateTime StringToDateTime(string s)
+        {
+            return StringToDateTime(s, DateTime.Now);
+        }
+
+        /// <summary>
+        /// 将object类型转换成datetime类型
+        /// </summary>
+        /// <param name="s">目标对象</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static DateTime ObjectToDateTime(object o, DateTime defaultValue)
+        {
+            if (o != null)
+                return StringToDateTime(o.ToString(), defaultValue);
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将object类型转换成datetime类型
+        /// </summary>
+        /// <param name="s">目标对象</param>
+        /// <returns></returns>
+        public static DateTime ObjectToDateTime(object o)
+        {
+            return ObjectToDateTime(o, DateTime.Now);
+        }
+
+        #endregion
+
+        #region 转Decimal
+
+        /// <summary>
+        /// 将string类型转换成decimal类型
+        /// </summary>
+        /// <param name="s">目标字符串</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static decimal StringToDecimal(string s, decimal defaultValue=0)
+        {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                decimal result;
+                if (decimal.TryParse(s, out result))
+                    return result;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将object类型转换成decimal类型
+        /// </summary>
+        /// <param name="s">目标对象</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static decimal ObjectToDecimal(object o, decimal defaultValue = 0)
+        {
+            if (o != null)
+                return StringToDecimal(o.ToString(), defaultValue);
+
+            return defaultValue;
+        }
+        #endregion
     }
 }
