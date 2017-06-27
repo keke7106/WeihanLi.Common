@@ -12,7 +12,7 @@ namespace WeihanLi.Common.Helpers
         private static Regex _emailregex = new Regex(@"^[a-z0-9]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$", RegexOptions.IgnoreCase);
 
         //手机号正则表达式
-        private static Regex _mobileregex = new Regex("^(13|15|17|18)[0-9]{9}$");
+        private static Regex _mobileregex = new Regex("^1(3|4|5|7|8)[0-9]{9}$");
 
         //固话号正则表达式
         private static Regex _phoneregex = new Regex(@"^(\d{3,4}-?)?\d{7,8}$");
@@ -79,13 +79,18 @@ namespace WeihanLi.Common.Helpers
         public static bool IsIdCard(string id)
         {
             if (string.IsNullOrEmpty(id))
+            {
                 return false;
+            }
             if (id.Length == 18)
+            {
                 return CheckIDCard18(id);
+            }
             else if (id.Length == 15)
+            {
                 return CheckIDCard15(id);
-            else
-                return false;
+            }
+            return false;
         }
 
         /// <summary>

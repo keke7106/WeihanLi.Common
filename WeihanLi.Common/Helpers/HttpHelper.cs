@@ -11,7 +11,7 @@ namespace WeihanLi.Common.Helpers
     /// </summary>
     public class HttpHelper
     {
-#if NET4
+#if NET45
         
         /// <summary>
         /// HTTP GET请求，返回字符串 

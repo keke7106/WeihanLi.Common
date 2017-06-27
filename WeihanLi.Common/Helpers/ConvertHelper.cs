@@ -11,7 +11,7 @@ namespace WeihanLi.Common.Helpers
 {
     public static class ConvertHelper
     {
-#if NET4
+#if NET45
         /// <summary>
         /// 利用反射和泛型
         /// </summary>

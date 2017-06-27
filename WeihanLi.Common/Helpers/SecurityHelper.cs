@@ -16,7 +16,7 @@ namespace WeihanLi.Common.Helpers
         //防SQL注入正则表达式2
         private static readonly Regex _sqlkeywordregex2 = new Regex(@"(select|insert|delete|from|count\(|drop|table|update|truncate|asc\(|mid\(|char\(|xp_cmdshell|exec|master|net|local|group|administrators|user|or|and|-|;|,|\(|\)|\[|\]|\{|\}|%|@|\*|!|\')", RegexOptions.IgnoreCase);
 
-        private static char[] constant = new char[]
+        private static readonly char[] constant = new char[]
         {
             '0',
             '1',
@@ -56,7 +56,7 @@ namespace WeihanLi.Common.Helpers
             'z'
         };
 
-        private static char[] constantNumber = new char[]
+        private static readonly char[] constantNumber = new char[]
         {
             '0',
             '1',
@@ -82,12 +82,12 @@ namespace WeihanLi.Common.Helpers
             char[] array;
             if (isNumberOnly)
             {
-                num = 10;
+                num = constantNumber.Length;
                 array = constantNumber;
             }
             else
             {
-                num = 36;
+                num = constant.Length;
                 array = constant;
             }
             StringBuilder stringBuilder = new StringBuilder(num);
@@ -207,7 +207,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="type">哈希类型</param>
         /// <param name="str">源字符串</param>
         /// <returns>哈希算法处理之后的字符串</returns>
-        public static string GetHashedString(HashType type, string str) => GetHashedString(type, str, Encoding.UTF8, false);
+        public static string GetHashedString(HashType type, string str) => GetHashedString(type, str, Encoding.UTF8);
 
         /// <summary>
         /// 获取哈希之后的字符串
@@ -228,6 +228,10 @@ namespace WeihanLi.Common.Helpers
         /// <returns>哈希算法处理之后的字符串</returns>
         public static string GetHashedString(HashType type, string str, Encoding encoding, bool isLower = false)
         {
+            if (String.IsNullOrEmpty(str))
+            {
+                return "";
+            }
             byte[] hashedBytes = GetHashedBytes(type, str, encoding);
             StringBuilder sbText = new StringBuilder();
             if (isLower)

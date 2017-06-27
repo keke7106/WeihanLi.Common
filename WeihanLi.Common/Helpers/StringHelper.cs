@@ -15,9 +15,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="info">信息实体</param>
         /// <param name="left">左边保留的字符数</param>
         /// <param name="right">右边保留的字符数</param>
-        /// <param name="basedOnLeft">当长度异常时，是否显示左边 
-        /// <code>true</code>显示左边，<code>false</code>显示右边
-        /// </param>
+        /// <param name="basedOnLeft">当长度异常时，是否显示左边 ，true显示左边，false显示右边 </param>
         /// <returns></returns>
         public static string HideSensitiveInfo(string info, int left, int right, bool basedOnLeft = true)
         {
@@ -71,8 +69,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="info">信息实体</param>
         /// <param name="left">左边保留的字符数</param>
         /// <param name="right">右边保留的字符数</param>
-        /// <param name="basedOnLeft">当长度异常时，是否显示左边 
-        /// <code>true</code>显示左边，<code>false</code>显示右边
+        /// <param name="basedOnLeft">当长度异常时，是否显示左边 ，true显示左边，false显示右边 </param>
         /// <returns></returns>
         public static string HideSensitiveInfo1(string info, int left, int right, bool basedOnLeft = true)
         {
@@ -122,8 +119,7 @@ namespace WeihanLi.Common.Helpers
         /// </summary>
         /// <param name="info">信息</param>
         /// <param name="sublen">信息总长与左子串（或右子串）的比例</param>
-        /// <param name="basedOnLeft">当长度异常时，是否显示左边，默认true，默认显示左边
-        /// <code>true</code>显示左边，<code>false</code>显示右边
+        /// <param name="basedOnLeft">当长度异常时，是否显示左边 ，true显示左边，false显示右边 </param>
         /// <returns></returns>
         public static string HideSensitiveInfo(string info, int sublen = 3, bool basedOnLeft = true)
         {

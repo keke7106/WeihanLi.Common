@@ -1,5 +1,5 @@
 ﻿using System;
-#if NET4
+#if NET45
 using System.Configuration;
 using System.Web.Configuration;    
 #endif
@@ -8,7 +8,7 @@ namespace WeihanLi.Common.Helpers
 {
     public class ConfigurationHelper
     {
-#if NET4        
+#if NET45        
         /// <summary>
         /// 网站根路径
         /// </summary>
@@ -23,17 +23,6 @@ namespace WeihanLi.Common.Helpers
         {
             //拼接路径
             string path = siteroot + AppSetting(key);
-            return path;
-        }
-
-        /// <summary>
-        /// 将虚拟路径转换为物理路径
-        /// </summary>
-        /// <param name="virtualPath">虚拟路径</param>
-        /// <returns>虚拟路径对应的物理路径</returns>
-        public static string MapPath(string virtualPath)
-        {
-            string path = siteroot + virtualPath;
             return path;
         }
 

@@ -1,0 +1,13 @@
+language: csharp
+solution: WeihanLi.Common.sln
+# runtime config
+mono: none
+dotnet: 1.0.4
+dist: trusty
+
+install:
+  - dotnet restore
+  
+script:
+  - dotnet build /p:Configuration=Release --framework:netstandard1.6 ./WeihanLi.Common/WeihanLi.Common.csproj
+  - dotnet test ./WeihanLi.Common.Test/WeihanLi.Common.Test.csproj

@@ -59,7 +59,7 @@ namespace WeihanLi.Common.Helpers
             logger = LogManager.GetLogger(t);
         }
 
-#if  NET4
+#if  NET45
         
         /// <summary>
         /// web.config 默认配置
