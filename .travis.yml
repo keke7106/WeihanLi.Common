@@ -5,6 +5,21 @@ mono: none
 dotnet: 1.0.4
 dist: trusty
 
+# branch build config
+branches:
+  only:
+    - master
+    - dev
+
+  except:
+    - gh-pages
+
+
+# git config
+git:
+  depth: 1
+  lfs_skip_smudge: true # disable the download of LFS objects when cloning
+
 install:
   - dotnet restore
   
