@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using System.Text;
 using System.IO;
+
+#if NET45
 using System.Web;
 using System.Net;
-using System.Text;
 using System.Security;
 using System.Diagnostics;
 using System.IO.Compression;
-using System.Text.RegularExpressions;
-using System.Collections.Specialized;
+using System.Collections.Specialized;    
+#endif
 
 namespace WeihanLi.Common.Helpers
 {
@@ -590,7 +593,7 @@ namespace WeihanLi.Common.Helpers
                                 {
                                     return reader.ReadToEnd();
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                     return "close";
                                 }
@@ -601,7 +604,7 @@ namespace WeihanLi.Common.Helpers
                 }
 
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 return "error";
             }
