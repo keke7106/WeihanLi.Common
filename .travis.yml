@@ -2,7 +2,7 @@ language: csharp
 solution: WeihanLi.Common.sln
 # runtime config
 mono: none
-dotnet: 1.0.4
+dotnet: 2.0.0
 dist: trusty
 
 # branch build config
@@ -24,5 +24,5 @@ install:
   - dotnet restore
   
 script:
-  - dotnet build /p:Configuration=Release --framework:netstandard1.6 ./WeihanLi.Common/WeihanLi.Common.csproj
+  - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./WeihanLi.Common/WeihanLi.Common.csproj
   - dotnet test ./WeihanLi.Common.Test/WeihanLi.Common.Test.csproj
