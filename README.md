@@ -9,5 +9,5 @@
 
 .net 常用工具类，公共方法
 
-基于 .netstandard，可以用于 .net framwork 4.5 与 netstandard1.6 以上版本
+基于 .netstandard，可以用于 .net framwork 4.5 与 netstandard2.0
 
