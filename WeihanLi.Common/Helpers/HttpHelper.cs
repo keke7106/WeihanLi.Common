@@ -11,10 +11,8 @@ namespace WeihanLi.Common.Helpers
     /// </summary>
     public class HttpHelper
     {
-#if NET45
-        
         /// <summary>
-        /// HTTP GET请求，返回字符串 
+        /// HTTP GET请求，返回字符串
         /// </summary>
         /// <param name="url"> url </param>
         /// <returns></returns>
@@ -42,7 +40,7 @@ namespace WeihanLi.Common.Helpers
         }
 
         /// <summary>
-        /// HTTP POST 请求，返回字符串 
+        /// HTTP POST 请求，返回字符串
         /// </summary>
         /// <param name="url"> url </param>
         /// <param name="parameters"> post数据字典 </param>
@@ -100,7 +98,7 @@ namespace WeihanLi.Common.Helpers
         }
 
         /// <summary>
-        /// HTTP POST 请求，返回字符串 
+        /// HTTP POST 请求，返回字符串
         /// </summary>
         /// <param name="url"> url </param>
         /// <param name="parameters"> post数据字典 </param>
@@ -148,14 +146,24 @@ namespace WeihanLi.Common.Helpers
             }
         }
 
+        public static string HttpPostJson<T>(string url, T data)
+        {
+            return HttpPostJson(url, data, Encoding.UTF8);
+        }
+
+        public static string HttpPostJson<T>(string url, T data, Encoding encoding)
+        {
+            return HttpPostBytes(url, encoding.GetBytes(ConvertHelper.ObjectToJson(data)));
+        }
+
         /// <summary>
-        /// HTTP POST 请求，返回字符串 
+        /// HTTP POST 请求，返回字符串
         /// </summary>
         /// <param name="url"> url </param>
         /// <param name="postData"> post数据 </param>
         /// <param name="isJsonFormat"> 是否是json格式数据 </param>
         /// <returns></returns>
-        public static string HttpPostString(string url, byte[] postData, bool isJsonFormat = true)
+        public static string HttpPostBytes(string url, byte[] postData, bool isJsonFormat = true)
         {
             Uri uri = new Uri(url, UriKind.Absolute);
             HttpWebRequest request = WebRequest.CreateHttp(uri);
@@ -183,7 +191,5 @@ namespace WeihanLi.Common.Helpers
                 }
             }
         }
-        
-#endif
     }
 }

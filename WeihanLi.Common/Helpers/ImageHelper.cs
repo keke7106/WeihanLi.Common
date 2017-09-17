@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+
 #if NET45
 using System.Web;
 using System.Drawing;
@@ -7,13 +7,11 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 #endif
 
-
 namespace WeihanLi.Common.Helpers
 {
     public static class ImageHelper
     {
-
-        #region  水印,缩略图
+        #region 水印,缩略图
 
 #if NET45
         //是否已经加载了JPEG编码解码器
@@ -37,7 +35,6 @@ namespace WeihanLi.Common.Helpers
                     _jpegcodec = codec;
                     break;
                 }
-
             }
             _isloadjpegcodec = true;
             return _jpegcodec;
@@ -50,7 +47,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="thumbPath">缩略图路径</param>
         /// <param name="width">缩略图宽度</param>
         /// <param name="height">缩略图高度</param>
-        /// <param name="mode">生成缩略图的方式</param>   
+        /// <param name="mode">生成缩略图的方式</param>
         public static void GenerateThumb(string imagePath, string thumbPath, int width, int height, string mode)
         {
             Image image = Image.FromFile(imagePath);
@@ -63,15 +60,19 @@ namespace WeihanLi.Common.Helpers
                 case ".jpeg":
                     imageFormat = ImageFormat.Jpeg;
                     break;
+
                 case ".bmp":
                     imageFormat = ImageFormat.Bmp;
                     break;
+
                 case ".png":
                     imageFormat = ImageFormat.Png;
                     break;
+
                 case ".gif":
                     imageFormat = ImageFormat.Gif;
                     break;
+
                 default:
                     imageFormat = ImageFormat.Jpeg;
                     break;
@@ -87,15 +88,18 @@ namespace WeihanLi.Common.Helpers
 
             switch (mode)
             {
-                case "HW"://指定高宽缩放（可能变形）           
+                case "HW"://指定高宽缩放（可能变形）
                     break;
-                case "W"://指定宽，高按比例             
+
+                case "W"://指定宽，高按比例
                     toHeight = image.Height * width / image.Width;
                     break;
+
                 case "H"://指定高，宽按比例
                     toWidth = image.Width * height / image.Height;
                     break;
-                case "Cut"://指定高宽裁减（不变形）           
+
+                case "Cut"://指定高宽裁减（不变形）
                     if ((double)image.Width / (double)image.Height > (double)toWidth / (double)toHeight)
                     {
                         oh = image.Height;
@@ -111,6 +115,7 @@ namespace WeihanLi.Common.Helpers
                         y = (image.Height - oh) / 2;
                     }
                     break;
+
                 default:
                     break;
             }
@@ -174,7 +179,6 @@ namespace WeihanLi.Common.Helpers
             Graphics g = null;
             try
             {
-
                 originalImage = Image.FromFile(originalPath);
                 watermarkImage = new Bitmap(watermarkPath);
 
@@ -203,34 +207,42 @@ namespace WeihanLi.Common.Helpers
                         x = (int)(originalImage.Width * (float).01);
                         y = (int)(originalImage.Height * (float).01);
                         break;
+
                     case 2:
                         x = (int)((originalImage.Width * (float).50) - (watermarkImage.Width / 2));
                         y = (int)(originalImage.Height * (float).01);
                         break;
+
                     case 3:
                         x = (int)((originalImage.Width * (float).99) - (watermarkImage.Width));
                         y = (int)(originalImage.Height * (float).01);
                         break;
+
                     case 4:
                         x = (int)(originalImage.Width * (float).01);
                         y = (int)((originalImage.Height * (float).50) - (watermarkImage.Height / 2));
                         break;
+
                     case 5:
                         x = (int)((originalImage.Width * (float).50) - (watermarkImage.Width / 2));
                         y = (int)((originalImage.Height * (float).50) - (watermarkImage.Height / 2));
                         break;
+
                     case 6:
                         x = (int)((originalImage.Width * (float).99) - (watermarkImage.Width));
                         y = (int)((originalImage.Height * (float).50) - (watermarkImage.Height / 2));
                         break;
+
                     case 7:
                         x = (int)(originalImage.Width * (float).01);
                         y = (int)((originalImage.Height * (float).99) - watermarkImage.Height);
                         break;
+
                     case 8:
                         x = (int)((originalImage.Width * (float).50) - (watermarkImage.Width / 2));
                         y = (int)((originalImage.Height * (float).99) - watermarkImage.Height);
                         break;
+
                     case 9:
                         x = (int)((originalImage.Width * (float).99) - (watermarkImage.Width));
                         y = (int)((originalImage.Height * (float).99) - watermarkImage.Height);
@@ -323,34 +335,42 @@ namespace WeihanLi.Common.Helpers
                         x = (float)originalImage.Width * (float).01;
                         y = (float)originalImage.Height * (float).01;
                         break;
+
                     case 2:
                         x = ((float)originalImage.Width * (float).50) - (sizePair.Width / 2);
                         y = (float)originalImage.Height * (float).01;
                         break;
+
                     case 3:
                         x = ((float)originalImage.Width * (float).99) - sizePair.Width;
                         y = (float)originalImage.Height * (float).01;
                         break;
+
                     case 4:
                         x = (float)originalImage.Width * (float).01;
                         y = ((float)originalImage.Height * (float).50) - (sizePair.Height / 2);
                         break;
+
                     case 5:
                         x = ((float)originalImage.Width * (float).50) - (sizePair.Width / 2);
                         y = ((float)originalImage.Height * (float).50) - (sizePair.Height / 2);
                         break;
+
                     case 6:
                         x = ((float)originalImage.Width * (float).99) - sizePair.Width;
                         y = ((float)originalImage.Height * (float).50) - (sizePair.Height / 2);
                         break;
+
                     case 7:
                         x = (float)originalImage.Width * (float).01;
                         y = ((float)originalImage.Height * (float).99) - sizePair.Height;
                         break;
+
                     case 8:
                         x = ((float)originalImage.Width * (float).50) - (sizePair.Width / 2);
                         y = ((float)originalImage.Height * (float).99) - sizePair.Height;
                         break;
+
                     case 9:
                         x = ((float)originalImage.Width * (float).99) - sizePair.Width;
                         y = ((float)originalImage.Height * (float).99) - sizePair.Height;
@@ -381,6 +401,7 @@ namespace WeihanLi.Common.Helpers
             }
         }
 #endif
-        #endregion
+
+        #endregion 水印,缩略图
     }
 }

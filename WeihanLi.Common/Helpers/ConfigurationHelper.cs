@@ -1,14 +1,14 @@
-﻿using System;
+﻿using System.Configuration;
+
 #if NET45
-using System.Configuration;
-using System.Web.Configuration;    
+using System.Web.Configuration;
 #endif
 
 namespace WeihanLi.Common.Helpers
 {
     public class ConfigurationHelper
     {
-#if NET45        
+#if NET45
         /// <summary>
         /// 网站根路径
         /// </summary>
@@ -27,26 +27,6 @@ namespace WeihanLi.Common.Helpers
         }
 
         /// <summary>
-        /// 获取配置文件中AppSetting节点的值
-        /// </summary>
-        /// <param name="key">设置的键值</param>
-        /// <returns>键值对应的值</returns>
-        public static string AppSetting(string key)
-        {
-            return System.Configuration.ConfigurationManager.AppSettings[key] ?? "";
-        }
-
-        /// <summary>
-        /// 获取配置文件中ConnectionStrings节点的值
-        /// </summary>
-        /// <param name="key">键值</param>
-        /// <returns>键值对应的连接字符串值</returns>
-        public static string ConnectionString(string key)
-        {
-            return System.Configuration.ConfigurationManager.ConnectionStrings[key].ConnectionString;
-        }
-
-        /// <summary>
         /// 将虚拟路径转换为物理路径
         /// </summary>
         /// <param name="virtualPath">虚拟路径</param>
@@ -56,5 +36,40 @@ namespace WeihanLi.Common.Helpers
             return siteroot + virtualPath;
         }
 #endif
+
+        /// <summary>
+        /// 获取配置文件中AppSetting节点的值
+        /// </summary>
+        /// <param name="key">设置的键值</param>
+        /// <returns>键值对应的值</returns>
+        public static string AppSetting(string key)
+        {
+            return ConfigurationManager.AppSettings[key] ?? "";
+        }
+
+        /// <summary>
+        /// 获取配置文件中AppSetting节点的值
+        /// </summary>
+        /// <param name="key">设置的键值</param>
+        /// <returns>键值对应的值</returns>
+        public static T AppSetting<T>(string key)
+        {
+            var value = ConfigurationManager.AppSettings[key];
+            if (value == null)
+            {
+                return default(T);
+            }
+            return ConvertHelper.JsonToObject<T>(key);
+        }
+
+        /// <summary>
+        /// 获取配置文件中ConnectionStrings节点的值
+        /// </summary>
+        /// <param name="key">键值</param>
+        /// <returns>键值对应的连接字符串值</returns>
+        public static string ConnectionString(string key)
+        {
+            return ConfigurationManager.ConnectionStrings[key].ConnectionString;
+        }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WeihanLi.Common.Extensions
+﻿namespace System
 {
     public static class NumberExtension
     {
         #region 数字格式修改
+
         /// <summary>
         /// 数字转换为百分比显示
         /// </summary>
@@ -40,6 +37,7 @@ namespace WeihanLi.Common.Extensions
             bValue = bValue * 100;
             return bValue.ToString("0.00") + "%";
         }
+
         /// <summary>
         /// 转换为指定位数小数
         /// </summary>
@@ -50,6 +48,7 @@ namespace WeihanLi.Common.Extensions
         {
             return Math.Round(number, 2);
         }
+
         /// <summary>
         /// 转换为指定位数小数
         /// </summary>
@@ -60,6 +59,7 @@ namespace WeihanLi.Common.Extensions
         {
             return Math.Round(number, 2);
         }
-        #endregion
+
+        #endregion 数字格式修改
     }
 }

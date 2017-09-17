@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+
 #if NET45
-using System.Data;    
+using System.Data;
 #endif
-using System.IO;
+
 using System.Reflection;
 
 namespace WeihanLi.Common.Helpers
@@ -44,7 +45,6 @@ namespace WeihanLi.Common.Helpers
                         //如果非空，则赋给对象的属性
                         if (value != null)
                         {
-
                         }
                         pi.SetValue(t, value, null);
                     }
@@ -66,9 +66,22 @@ namespace WeihanLi.Common.Helpers
         {
             if (obj == null)
             {
-                return "";
+                return String.Empty;
             }
             return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string ObjectToJson(object obj, JsonSerializerSettings serializerSettings)
+        {
+            if (obj == null)
+            {
+                return String.Empty;
+            }
+            if (serializerSettings == null)
+            {
+                return ObjectToJson(obj);
+            }
+            return JsonConvert.SerializeObject(obj, serializerSettings);
         }
 
         /// <summary>
@@ -84,16 +97,6 @@ namespace WeihanLi.Common.Helpers
                 return default(T);
             }
             return JsonConvert.DeserializeObject<T>(jsonString);
-        }
-
-        /// <summary>
-        /// 从字符串中获取数据
-        /// </summary>
-        /// <param name="content">源字符串</param>
-        /// <returns>字符串中的值</returns>
-        public static string GetContent(string content)
-        {
-            return (String.IsNullOrEmpty(content) ? null : content);
         }
 
         /// <summary>
@@ -114,7 +117,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="s">目标字符串</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static int StringToInt(string s, int defaultValue=0)
+        public static int StringToInt(string s, int defaultValue = 0)
         {
             if (!string.IsNullOrWhiteSpace(s))
             {
@@ -132,14 +135,15 @@ namespace WeihanLi.Common.Helpers
         /// <param name="s">目标对象</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static int ObjectToInt(object o, int defaultValue=0)
+        public static int ObjectToInt(object o, int defaultValue = 0)
         {
             if (o != null)
                 return StringToInt(o.ToString(), defaultValue);
 
             return defaultValue;
         }
-        #endregion
+
+        #endregion 转Int
 
         #region 转Bool
 
@@ -180,7 +184,7 @@ namespace WeihanLi.Common.Helpers
             return defaultValue;
         }
 
-        #endregion
+        #endregion 转Bool
 
         #region 转DateTime
 
@@ -235,7 +239,7 @@ namespace WeihanLi.Common.Helpers
             return ObjectToDateTime(o, DateTime.Now);
         }
 
-        #endregion
+        #endregion 转DateTime
 
         #region 转Decimal
 
@@ -245,7 +249,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="s">目标字符串</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public static decimal StringToDecimal(string s, decimal defaultValue=0)
+        public static decimal StringToDecimal(string s, decimal defaultValue = 0)
         {
             if (!string.IsNullOrWhiteSpace(s))
             {
@@ -269,6 +273,7 @@ namespace WeihanLi.Common.Helpers
 
             return defaultValue;
         }
-        #endregion
+
+        #endregion 转Decimal
     }
 }

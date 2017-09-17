@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -13,6 +12,7 @@ namespace WeihanLi.Common.Helpers
     {
         //防SQL注入正则表达式1
         private static readonly Regex _sqlkeywordregex1 = new Regex(@"(select|insert|delete|from|count\(|drop|table|update|truncate|asc\(|mid\(|char\(|xp_cmdshell|exec|master|net|local|group|administrators|user|or|and)", RegexOptions.IgnoreCase);
+
         //防SQL注入正则表达式2
         private static readonly Regex _sqlkeywordregex2 = new Regex(@"(select|insert|delete|from|count\(|drop|table|update|truncate|asc\(|mid\(|char\(|xp_cmdshell|exec|master|net|local|group|administrators|user|or|and|-|;|,|\(|\)|\[|\]|\{|\}|%|@|\*|!|\')", RegexOptions.IgnoreCase);
 
@@ -68,7 +68,7 @@ namespace WeihanLi.Common.Helpers
             '7',
             '8',
             '9'
-        };        
+        };
 
         /// <summary>
         /// 生成随机验证码
@@ -115,7 +115,7 @@ namespace WeihanLi.Common.Helpers
                 else
                 {
                     return !_sqlkeywordregex1.IsMatch(s);
-                }  
+                }
             }
             return true;
         }
@@ -301,18 +301,22 @@ namespace WeihanLi.Common.Helpers
         /// MD5
         /// </summary>
         MD5 = 0,
+
         /// <summary>
         /// SHA1
         /// </summary>
         SHA1 = 1,
+
         /// <summary>
         /// SHA256
         /// </summary>
         SHA256 = 2,
+
         /// <summary>
         /// SHA384
         /// </summary>
         SHA384 = 3,
+
         /// <summary>
         /// SHA512
         /// </summary>

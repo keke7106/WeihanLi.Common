@@ -1,19 +1,37 @@
-﻿using System;
+﻿using log4net;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
-using log4net;
+using System.Reflection;
 
 namespace WeihanLi.Common.Helpers
 {
-    public interface ILogHelper
+    public interface ILogProvider
     {
+        ILog Logger { get; set; }
+
+        #region Init
+
+        /// <summary>
+        /// init
+        /// </summary>
+        void LogInit();
+
+        /// <summary>
+        /// init
+        /// </summary>
+        /// <param name="filePath">configuration file path</param>
+        void LogInit(string filePath);
+
+        #endregion Init
 
         #region Info
 
         void Info(string msg);
 
         void InfoFormat(string msgFormat, params object[] args);
-        #endregion
+
+        #endregion Info
 
         #region Debug
 
@@ -24,7 +42,8 @@ namespace WeihanLi.Common.Helpers
         void Debug(string msg, Exception ex);
 
         void Debug(Exception ex);
-        #endregion
+
+        #endregion Debug
 
         #region Warn
 
@@ -35,7 +54,8 @@ namespace WeihanLi.Common.Helpers
         void Warn(string msg, Exception ex);
 
         void Warn(Exception ex);
-        #endregion
+
+        #endregion Warn
 
         #region Error
 
@@ -47,130 +67,372 @@ namespace WeihanLi.Common.Helpers
 
         void Error(Exception ex);
 
-        #endregion
+        #endregion Error
+
+        #region Error
+
+        void Fatal(string msg);
+
+        void FatalFormat(string msgFormat, params object[] args);
+
+        void Fatal(string msg, Exception ex);
+
+        void Fatal(Exception ex);
+
+        #endregion Error
+
     }
 
-    public class LogHelper:ILogHelper
+    internal class DefaultLogProvider : ILogProvider
     {
-        private readonly ILog logger = null;
+        private ILog _logger;
 
-        public LogHelper(Type t)
+        public ILog Logger
         {
-            logger = LogManager.GetLogger(t);
+            get => _logger;
+            set => _logger = value;
         }
 
-#if  NET45
-        
+        #region LogInit
+
         /// <summary>
-        /// web.config 默认配置
+        /// web.config 或 app.config 默认配置
         /// </summary>
-        public static void LogInit()
+        public void LogInit()
         {
+#if NET45
             log4net.Config.XmlConfigurator.Configure();
-        }
-
-        /// <summary>
-        /// 独立文件配置
-        /// </summary>
-        /// <param name="filePath">log4net配置文件路径</param>
-        public static void LogInit(string filePath)
-        {
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(filePath));
-        }
-        
+#else
+            log4net.Config.XmlConfigurator.Configure(LogManager.CreateRepository(Assembly.GetEntryAssembly().FullName));
 #endif
+        }
 
         /// <summary>
         /// 独立文件配置
         /// </summary>
-        /// <param name="repositoryName">repository名称</param>
         /// <param name="filePath">log4net配置文件路径</param>
-        public static void LogInit(string repositoryName,string filePath)
+        public void LogInit(string filePath)
         {
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(LogManager.CreateRepository(repositoryName), new System.IO.FileInfo(filePath));
+#if NET45
+            log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(filePath));
+#else
+            log4net.Config.XmlConfigurator.ConfigureAndWatch(LogManager.CreateRepository(Assembly.GetEntryAssembly().FullName), new System.IO.FileInfo(filePath));
+#endif
         }
+
+        #endregion LogInit
 
         #region Info
-        public void Info(string msg)
+
+        public virtual void Info(string msg)
         {
-            logger.Info(msg);
+            _logger.Info(msg);
         }
 
-        public void InfoFormat(string msgFormat, params object[] args)
+        public virtual void InfoFormat(string msgFormat, params object[] args)
         {
             Info(String.Format(msgFormat, args));
         }
 
-        public void Info(string msg, Exception ex)
+        public virtual void Info(string msg, Exception ex)
         {
-            logger.Info(msg, ex);
+            _logger.Info(msg, ex);
         }
-        #endregion
+
+        #endregion Info
 
         #region Debug
-        public void Debug(string msg)
+
+        public virtual void Debug(string msg)
         {
-            logger.Debug(msg);
+            _logger.Debug(msg);
         }
 
-        public void DebugFormat(string msgFormat, params object[] args)
+        public virtual void DebugFormat(string msgFormat, params object[] args)
         {
             Debug(String.Format(msgFormat, args));
         }
 
-        public void Debug(string msg, Exception ex)
+        public virtual void Debug(string msg, Exception ex)
         {
-            logger.Debug(msg, ex);
+            _logger.Debug(msg, ex);
         }
 
-        public void Debug(Exception ex)
+        public virtual void Debug(Exception ex)
         {
-            logger.Debug(ex.Message, ex);
+            _logger.Debug(ex.Message, ex);
         }
-        #endregion
-        
+
+        #endregion Debug
+
         #region Warn
-        public void Warn(string msg)
+
+        public virtual void Warn(string msg)
         {
-            logger.Warn(msg);
+            _logger.Warn(msg);
         }
 
-        public void WarnFormat(string msgFormat, params object[] args)
+        public virtual void WarnFormat(string msgFormat, params object[] args)
         {
             Warn(String.Format(msgFormat, args));
         }
 
-        public void Warn(string msg, Exception ex)
+        public virtual void Warn(string msg, Exception ex)
         {
-            logger.Warn(msg, ex);
+            _logger.Warn(msg, ex);
         }
 
-        public void Warn(Exception ex)
+        public virtual void Warn(Exception ex)
         {
-            logger.Warn(ex.Message, ex);
+            _logger.Warn(ex.Message, ex);
         }
-        #endregion
+
+        #endregion Warn
 
         #region Error
-        public void Error(string msg)
+
+        public virtual void Error(string msg)
         {
-            logger.Error(msg);
+            _logger.Error(msg);
         }
 
-        public void ErrorFormat(string msgFormat, params object[] args)
+        public virtual void ErrorFormat(string msgFormat, params object[] args)
         {
             Error(String.Format(msgFormat, args));
         }
 
-        public void Error(string msg, Exception ex)
+        public virtual void Error(string msg, Exception ex)
         {
-            logger.Error(msg, ex);
+            _logger.Error(msg, ex);
         }
 
-        public void Error(Exception ex)
+        public virtual void Error(Exception ex)
         {
-            logger.Error(ex.Message, ex);
+            _logger.Error(ex.Message, ex);
         }
-        #endregion
+
+        #endregion Error
+
+        #region Fatal
+
+        public void Fatal(string msg)
+        {
+            _logger.Fatal(msg);
+        }
+
+        public void FatalFormat(string msgFormat, params object[] args)
+        {
+            _logger.FatalFormat(msgFormat, args);
+        }
+
+        public void Fatal(string msg, Exception ex)
+        {
+            _logger.Fatal(msg, ex);
+        }
+
+        public void Fatal(Exception ex)
+        {
+            _logger.Fatal(ex);
+        }
+
+        #endregion Fatal
+    }
+
+    public class LogHelper
+    {
+        private static ConcurrentDictionary<string, ILogProvider> _logProviders =
+            new ConcurrentDictionary<string, ILogProvider>();
+
+        private readonly ILog _logger;
+        private static string _configFilePath;
+
+        public LogHelper(Type type)
+        {
+            _logger = LogManager.GetLogger(type);
+            foreach (var logProvider in _logProviders.Values)
+            {
+                logProvider.Logger = _logger;
+            }
+        }
+
+        #region LogInit
+
+        /// <summary>
+        /// LogInit
+        /// </summary>
+        public static void LogInit()
+        {
+            _logProviders.GetOrAdd("DefaultLogProvider", new DefaultLogProvider());
+            if (String.IsNullOrWhiteSpace(_configFilePath))
+            {
+                foreach (var provider in _logProviders.Values)
+                {
+                    provider.LogInit();
+                }
+            }
+            else
+            {
+                foreach (var provider in _logProviders.Values)
+                {
+                    provider.LogInit(_configFilePath);
+                }
+            }
+        }
+
+        public static void LogInit(string confFilePath)
+        {
+            _configFilePath = confFilePath;
+            LogInit();
+        }
+
+        public static void LogInit(IEnumerable<ILogProvider> logProviders)
+        {
+            _logProviders.GetOrAdd("DefaultLogProvider", new DefaultLogProvider());
+            foreach (var provider in logProviders)
+            {
+                _logProviders.GetOrAdd(provider.GetType().FullName ?? provider.ToString(), provider);
+            }
+            if (String.IsNullOrWhiteSpace(_configFilePath))
+            {
+                foreach (var provider in _logProviders.Values)
+                {
+                    provider.LogInit();
+                }
+            }
+            else
+            {
+                foreach (var provider in _logProviders.Values)
+                {
+                    provider.LogInit(_configFilePath);
+                }
+            }
+
+        }
+
+        public static void LogInit(string confFilePath, IEnumerable<ILogProvider> logProviders)
+        {
+            _configFilePath = confFilePath;
+            LogInit(logProviders);
+        }
+
+        #endregion LogInit
+
+        #region Info
+
+        public virtual void Info(string msg)
+        {
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Logger.Info(msg);
+            }
+        }
+
+        public virtual void InfoFormat(string msgFormat, params object[] args)
+        {
+            Info(String.Format(msgFormat, args));
+        }
+
+        public virtual void Info(string msg, Exception ex)
+        {
+            _logger.Info(msg, ex);
+        }
+
+        #endregion Info
+
+        #region Debug
+
+        public virtual void Debug(string msg)
+        {
+            _logger.Debug(msg);
+        }
+
+        public virtual void DebugFormat(string msgFormat, params object[] args)
+        {
+            Debug(String.Format(msgFormat, args));
+        }
+
+        public virtual void Debug(string msg, Exception ex)
+        {
+            _logger.Debug(msg, ex);
+        }
+
+        public virtual void Debug(Exception ex)
+        {
+            _logger.Debug(ex.Message, ex);
+        }
+
+        #endregion Debug
+
+        #region Warn
+
+        public virtual void Warn(string msg)
+        {
+            _logger.Warn(msg);
+        }
+
+        public virtual void WarnFormat(string msgFormat, params object[] args)
+        {
+            Warn(String.Format(msgFormat, args));
+        }
+
+        public virtual void Warn(string msg, Exception ex)
+        {
+            _logger.Warn(msg, ex);
+        }
+
+        public virtual void Warn(Exception ex)
+        {
+            _logger.Warn(ex.Message, ex);
+        }
+
+        #endregion Warn
+
+        #region Error
+
+        public virtual void Error(string msg)
+        {
+            _logger.Error(msg);
+        }
+
+        public virtual void ErrorFormat(string msgFormat, params object[] args)
+        {
+            Error(String.Format(msgFormat, args));
+        }
+
+        public virtual void Error(string msg, Exception ex)
+        {
+            _logger.Error(msg, ex);
+        }
+
+        public virtual void Error(Exception ex)
+        {
+            _logger.Error(ex.Message, ex);
+        }
+
+        #endregion Error
+
+        #region Fatal
+
+        public void Fatal(string msg)
+        {
+            _logger.Fatal(msg);
+        }
+
+        public void FatalFormat(string msgFormat, params object[] args)
+        {
+            _logger.FatalFormat(msgFormat, args);
+        }
+
+        public void Fatal(string msg, Exception ex)
+        {
+            _logger.Fatal(msg, ex);
+        }
+
+        public void Fatal(Exception ex)
+        {
+            _logger.Fatal(ex);
+        }
+
+        #endregion Fatal
     }
 }

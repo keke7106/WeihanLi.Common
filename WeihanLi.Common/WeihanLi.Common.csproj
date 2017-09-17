@@ -1,33 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
-    <PackageId>WeihanLi.Common</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>WeihanLi</Authors>
-    <Description>common .net libarary</Description>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>common .net libarary</PackageReleaseNotes>
-    <Copyright>Copyright 2017 (c) WeihanLi</Copyright>
-    <PackageTags>common utility lib libarary</PackageTags>
-    <Version>1.0.0</Version>
-    <PackageLicenseUrl>https://github.com/WeihanLi/WeihanLi.Common/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/WeihanLi/WeihanLi.Common</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/WeihanLi/WeihanLi.Common</RepositoryUrl>
-  </PropertyGroup>
-  <!-- Need to conditionally bring in references for the .NET Framework 4.5 target -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">    
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />    
-    <Reference Include="System.Web" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+        <PackageId>WeihanLi.Common</PackageId>
+        <PackageVersion>1.0.0.0</PackageVersion>
+        <Authors>WeihanLi</Authors>
+        <Description>common .net libarary</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes>common .net libarary</PackageReleaseNotes>
+        <Copyright>Copyright 2017 (c) WeihanLi</Copyright>
+        <PackageTags>common utility lib libarary</PackageTags>
+        <Version>1.0.0</Version>
+        <PackageLicenseUrl>https://github.com/WeihanLi/WeihanLi.Common/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/WeihanLi/WeihanLi.Common</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/WeihanLi/WeihanLi.Common</RepositoryUrl>
+    </PropertyGroup>
+    <!-- Need to conditionally bring in references for the .NET Framework 4.5 target -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.IO.Compression" />
+        <Reference Include="System.Web" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="System.Configuration.ConfigurationManager">
+            <Version>4.4.0</Version>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="log4net" Version="2.0.8" />
+        <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    </ItemGroup>
 </Project>
