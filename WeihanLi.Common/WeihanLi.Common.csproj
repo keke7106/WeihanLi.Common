@@ -3,18 +3,19 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
         <PackageId>WeihanLi.Common</PackageId>
-        <PackageVersion>1.0.0.0</PackageVersion>
+        <PackageVersion>1.0.0.8-beta</PackageVersion>
         <Authors>WeihanLi</Authors>
         <Description>common .net libarary</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageReleaseNotes>common .net libarary</PackageReleaseNotes>
+        <PackageReleaseNotes>.netstandard libarary</PackageReleaseNotes>
         <Copyright>Copyright 2017 (c) WeihanLi</Copyright>
         <PackageTags>common utility lib libarary</PackageTags>
-        <Version>1.0.0</Version>
+        <Version>1.0.0.8-beta</Version>
         <PackageLicenseUrl>https://github.com/WeihanLi/WeihanLi.Common/blob/master/LICENSE</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/WeihanLi/WeihanLi.Common</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/WeihanLi/WeihanLi.Common</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
     <!-- Need to conditionally bring in references for the .NET Framework 4.5 target -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
