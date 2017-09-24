@@ -3389,15 +3389,53 @@ namespace System
         }
 
         /// <summary>
-        ///     A string extension method that left safe.
+        /// SafeSubstring
         /// </summary>
-        /// <param name="this">The @this to act on.</param>
-        /// <param name="index">index</param>
-        /// <param name="length">The length.</param>
-        /// <returns>A string.</returns>
-        public static string SafeSubstring(this string @this, int index, int length)
+        /// <param name="this"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        public static string SafeSubstring(this string @this, int startIndex)
         {
-            return @this.Substring(index, Math.Min(length, @this.Length) - index);
+            if (startIndex < 0 || startIndex > @this.Length)
+            {
+                return String.Empty;
+            }
+            return @this.Substring(startIndex);
+        }
+
+        /// <summary>
+        /// SafeSubstring
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string SafeSubstring(this string str, int startIndex, int length)
+        {
+            if (startIndex < 0 || startIndex > str.Length || length<0)
+            {
+                return String.Empty;
+            }
+            return str.Substring(startIndex, Math.Min(str.Length - startIndex, length));
+        }
+
+        /// <summary>
+        /// Sub, not only substring but support for negative numbers
+        /// </summary>
+        /// <param name="this">string to be handled</param>
+        /// <param name="startIndex">startIndex to substract</param>
+        /// <returns>substring</returns>
+        public static string Sub(this string @this, int startIndex)
+        {
+            if (startIndex >= 0)
+            {
+                return @this.SafeSubstring(startIndex);
+            }
+            if (Math.Abs(startIndex) > @this.Length)
+            {
+                return String.Empty;
+            }
+            return @this.Substring(@this.Length + startIndex);
         }
 
         /// <summary>

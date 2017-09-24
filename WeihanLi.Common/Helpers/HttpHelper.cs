@@ -9,7 +9,7 @@ namespace WeihanLi.Common.Helpers
     /// <summary>
     /// HTTP请求帮助类
     /// </summary>
-    public class HttpHelper
+    public static class HttpHelper
     {
         /// <summary>
         /// HTTP GET请求，返回字符串
@@ -22,21 +22,7 @@ namespace WeihanLi.Common.Helpers
             HttpWebRequest request = WebRequest.CreateHttp(uri);
             request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
             request.Method = "GET";
-            using (var response = request.GetResponse())
-            {
-                Stream responseStream = response.GetResponseStream();
-                if (responseStream != null)
-                {
-                    using (var reader = new StreamReader(responseStream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return request.GetResponseSafe().ReadToEnd();
         }
 
         /// <summary>
@@ -80,21 +66,7 @@ namespace WeihanLi.Common.Helpers
             HttpWebRequest request = WebRequest.CreateHttp(uri);
             request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
             request.Method = "GET";
-            using (var response = request.GetResponse())
-            {
-                var responseSream = response.GetResponseStream();
-                if (responseSream != null)
-                {
-                    using (StreamReader reader = new StreamReader(responseSream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return request.GetResponseSafe().ReadToEnd();
         }
 
         /// <summary>
@@ -129,32 +101,37 @@ namespace WeihanLi.Common.Helpers
                 var postStream = request.GetRequestStream();
                 postStream.Write(postData, 0, postData.Length);
             }
-            using (var response = request.GetResponse())
-            {
-                var responseSream = response.GetResponseStream();
-                if (responseSream != null)
-                {
-                    using (StreamReader reader = new StreamReader(responseSream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return request.GetResponseSafe().ReadToEnd();
         }
 
+        /// <summary>
+        /// Http
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static string HttpPostJson<T>(string url, T data)
         {
-            return HttpPostJson(url, data, Encoding.UTF8);
+            return HttpPostForString(url, Encoding.UTF8.GetBytes(ConvertHelper.ObjectToJson(data)), true);
         }
+
 
         public static string HttpPostJson<T>(string url, T data, Encoding encoding)
         {
-            return HttpPostBytes(url, encoding.GetBytes(ConvertHelper.ObjectToJson(data)));
+            return HttpPostForString(url, encoding.GetBytes(ConvertHelper.ObjectToJson(data)), true);
         }
+
+        public static TResponse HttpPostJsonFor<TRequest, TResponse>(string url, TRequest data)
+        {
+            return HttpPostFor<TResponse>(url, Encoding.UTF8.GetBytes(ConvertHelper.ObjectToJson(data)), true);
+        }
+
+        public static TResponse HttpPostJsonFor<TRequest,TResponse>(string url, TRequest data, Encoding encoding)
+        {
+            return HttpPostFor<TResponse>(url, encoding.GetBytes(ConvertHelper.ObjectToJson(data)), true);
+        }
+
 
         /// <summary>
         /// HTTP POST 请求，返回字符串
@@ -163,7 +140,7 @@ namespace WeihanLi.Common.Helpers
         /// <param name="postData"> post数据 </param>
         /// <param name="isJsonFormat"> 是否是json格式数据 </param>
         /// <returns></returns>
-        public static string HttpPostBytes(string url, byte[] postData, bool isJsonFormat = true)
+        public static string HttpPostForString(string url, byte[] postData, bool isJsonFormat = true)
         {
             Uri uri = new Uri(url, UriKind.Absolute);
             HttpWebRequest request = WebRequest.CreateHttp(uri);
@@ -175,21 +152,37 @@ namespace WeihanLi.Common.Helpers
             }
             var postStream = request.GetRequestStream();
             postStream.Write(postData, 0, postData.Length);
-            using (var response = request.GetResponse())
+            return request.GetResponseSafe().ReadToEnd();
+        }
+        
+        public static T HttpPostFor<T>(string url, byte[] postData, bool isJsonFormat)
+        {
+            Uri uri = new Uri(url, UriKind.Absolute);
+            HttpWebRequest request = WebRequest.CreateHttp(uri);
+            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
+            request.Method = "POST";
+            if (isJsonFormat)
             {
-                Stream responseStream = response.GetResponseStream(); ;
-                if (responseStream != null)
-                {
-                    using (StreamReader reader = new StreamReader(responseStream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-                else
-                {
-                    return null;
-                }
+                request.ContentType = "application/json;charset=UTF-8";
             }
+            var postStream = request.GetRequestStream();
+            postStream.Write(postData, 0, postData.Length);
+            return ConvertHelper.JsonToObject<T>(request.GetResponseSafe().ReadToEnd());
+        }
+
+        public static byte[] HttpPostForBytes(string url, byte[] postData,bool isJsonFormat)
+        {
+            Uri uri = new Uri(url, UriKind.Absolute);
+            HttpWebRequest request = WebRequest.CreateHttp(uri);
+            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
+            request.Method = "POST";
+            if (isJsonFormat)
+            {
+                request.ContentType = "application/json;charset=UTF-8";
+            }
+            var postStream = request.GetRequestStream();
+            postStream.Write(postData, 0, postData.Length);
+            return request.GetResponseSafe().ReadAllBytes();
         }
     }
 }

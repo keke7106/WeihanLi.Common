@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Reflection;
 
 #if NET45
 using System.Web.Configuration;
@@ -6,13 +8,16 @@ using System.Web.Configuration;
 
 namespace WeihanLi.Common.Helpers
 {
-    public class ConfigurationHelper
+    public static class ConfigurationHelper
     {
 #if NET45
         /// <summary>
         /// 网站根路径
         /// </summary>
         private static string siteroot = System.Web.Hosting.HostingEnvironment.MapPath("~/");
+#else
+        private static string siteroot = Assembly.GetEntryAssembly().Location;
+#endif
 
         /// <summary>
         /// 获取配置文件中AppSetting节点的相对路径对应的绝对路径
@@ -35,7 +40,6 @@ namespace WeihanLi.Common.Helpers
         {
             return siteroot + virtualPath;
         }
-#endif
 
         /// <summary>
         /// 获取配置文件中AppSetting节点的值
@@ -55,11 +59,7 @@ namespace WeihanLi.Common.Helpers
         public static T AppSetting<T>(string key)
         {
             var value = ConfigurationManager.AppSettings[key];
-            if (value == null)
-            {
-                return default(T);
-            }
-            return ConvertHelper.JsonToObject<T>(key);
+            return value.To<T>();
         }
 
         /// <summary>

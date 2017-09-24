@@ -15,16 +15,11 @@ namespace WeihanLi.Common.Test.HelpersTest
         }
 
         [Fact]
-        public void AppSettingsModelTest()
+        public void AppSettingsToTest()
         {
-            var val = Helpers.ConfigurationHelper.AppSetting<SimplePersonModel>("key2");
-            Assert.NotNull(val);
+            var val = Helpers.ConfigurationHelper.AppSetting<int>("key2");
+            Assert.Equal(1,val);
+            Assert.True(Helpers.ConfigurationHelper.AppSetting<bool>("key2"));
         }
-    }
-
-    public class SimplePersonModel
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
     }
 }

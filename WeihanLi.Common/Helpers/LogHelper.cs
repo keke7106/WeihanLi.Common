@@ -17,12 +17,6 @@ namespace WeihanLi.Common.Helpers
         /// </summary>
         void LogInit();
 
-        /// <summary>
-        /// init
-        /// </summary>
-        /// <param name="filePath">configuration file path</param>
-        void LogInit(string filePath);
-
         #endregion Init
 
         #region Info
@@ -39,9 +33,7 @@ namespace WeihanLi.Common.Helpers
 
         void DebugFormat(string msgFormat, params object[] args);
 
-        void Debug(string msg, Exception ex);
-
-        void Debug(Exception ex);
+        void Debug(string msg, Exception ex);        
 
         #endregion Debug
 
@@ -69,7 +61,7 @@ namespace WeihanLi.Common.Helpers
 
         #endregion Error
 
-        #region Error
+        #region Fatal
 
         void Fatal(string msg);
 
@@ -79,7 +71,7 @@ namespace WeihanLi.Common.Helpers
 
         void Fatal(Exception ex);
 
-        #endregion Error
+        #endregion Fatal
 
     }
 
@@ -243,8 +235,8 @@ namespace WeihanLi.Common.Helpers
         private static ConcurrentDictionary<string, ILogProvider> _logProviders =
             new ConcurrentDictionary<string, ILogProvider>();
 
+        private static readonly DefaultLogProvider DefaultLogProvider = new DefaultLogProvider();
         private readonly ILog _logger;
-        private static string _configFilePath;
 
         public LogHelper(Type type)
         {
@@ -262,57 +254,42 @@ namespace WeihanLi.Common.Helpers
         /// </summary>
         public static void LogInit()
         {
-            _logProviders.GetOrAdd("DefaultLogProvider", new DefaultLogProvider());
-            if (String.IsNullOrWhiteSpace(_configFilePath))
+            DefaultLogProvider.LogInit();
+            foreach (var provider in _logProviders.Values)
             {
-                foreach (var provider in _logProviders.Values)
-                {
-                    provider.LogInit();
-                }
-            }
-            else
-            {
-                foreach (var provider in _logProviders.Values)
-                {
-                    provider.LogInit(_configFilePath);
-                }
+                provider.LogInit();
             }
         }
 
         public static void LogInit(string confFilePath)
         {
-            _configFilePath = confFilePath;
-            LogInit();
+            DefaultLogProvider.LogInit(confFilePath);
         }
 
         public static void LogInit(IEnumerable<ILogProvider> logProviders)
         {
-            _logProviders.GetOrAdd("DefaultLogProvider", new DefaultLogProvider());
+            DefaultLogProvider.LogInit();
             foreach (var provider in logProviders)
             {
                 _logProviders.GetOrAdd(provider.GetType().FullName ?? provider.ToString(), provider);
             }
-            if (String.IsNullOrWhiteSpace(_configFilePath))
+            foreach (var provider in _logProviders.Values)
             {
-                foreach (var provider in _logProviders.Values)
-                {
-                    provider.LogInit();
-                }
+                provider.LogInit();
             }
-            else
-            {
-                foreach (var provider in _logProviders.Values)
-                {
-                    provider.LogInit(_configFilePath);
-                }
-            }
-
         }
 
         public static void LogInit(string confFilePath, IEnumerable<ILogProvider> logProviders)
         {
-            _configFilePath = confFilePath;
-            LogInit(logProviders);
+            DefaultLogProvider.LogInit(confFilePath);
+            foreach (var provider in logProviders)
+            {
+                _logProviders.GetOrAdd(provider.GetType().FullName ?? provider.ToString(), provider);
+            }
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.LogInit();
+            }
         }
 
         #endregion LogInit

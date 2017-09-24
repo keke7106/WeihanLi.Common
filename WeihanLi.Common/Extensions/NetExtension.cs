@@ -23,6 +23,23 @@ namespace System.Net
         }
 
         /// <summary>
+        /// A WebResponse extension method that reads the response stream to byte array.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The response stream as byte array</returns>
+        public static byte[] ReadAllBytes(this WebResponse @this)
+        {
+            using (WebResponse response = @this)
+            {
+                using (Stream stream = response.GetResponseStream())
+                {
+                    var byteArray = new byte[stream.Length];
+                    stream.Write(byteArray, 0, byteArray.Length);
+                    return byteArray;
+                }
+            }
+        }
+        /// <summary>
         ///     A WebResponse extension method that reads the response stream to the end.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
