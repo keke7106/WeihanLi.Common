@@ -240,14 +240,18 @@ namespace WeihanLi.Common.Helpers
 
         public LogHelper(Type type)
         {
+#if NET45
             _logger = LogManager.GetLogger(type);
+#else
+            _logger = LogManager.GetLogger(Assembly.GetEntryAssembly().FullName, type);
+#endif
             foreach (var logProvider in _logProviders.Values)
             {
                 logProvider.Logger = _logger;
             }
         }
 
-        #region LogInit
+#region LogInit
 
         /// <summary>
         /// LogInit
@@ -255,10 +259,6 @@ namespace WeihanLi.Common.Helpers
         public static void LogInit()
         {
             DefaultLogProvider.LogInit();
-            foreach (var provider in _logProviders.Values)
-            {
-                provider.LogInit();
-            }
         }
 
         public static void LogInit(string confFilePath)
@@ -292,9 +292,9 @@ namespace WeihanLi.Common.Helpers
             }
         }
 
-        #endregion LogInit
+#endregion LogInit
 
-        #region Info
+#region Info
 
         public virtual void Info(string msg)
         {
@@ -314,9 +314,9 @@ namespace WeihanLi.Common.Helpers
             _logger.Info(msg, ex);
         }
 
-        #endregion Info
+#endregion Info
 
-        #region Debug
+#region Debug
 
         public virtual void Debug(string msg)
         {
@@ -338,9 +338,9 @@ namespace WeihanLi.Common.Helpers
             _logger.Debug(ex.Message, ex);
         }
 
-        #endregion Debug
+#endregion Debug
 
-        #region Warn
+#region Warn
 
         public virtual void Warn(string msg)
         {
@@ -362,9 +362,9 @@ namespace WeihanLi.Common.Helpers
             _logger.Warn(ex.Message, ex);
         }
 
-        #endregion Warn
+#endregion Warn
 
-        #region Error
+#region Error
 
         public virtual void Error(string msg)
         {
@@ -386,9 +386,9 @@ namespace WeihanLi.Common.Helpers
             _logger.Error(ex.Message, ex);
         }
 
-        #endregion Error
+#endregion Error
 
-        #region Fatal
+#region Fatal
 
         public void Fatal(string msg)
         {
@@ -410,6 +410,6 @@ namespace WeihanLi.Common.Helpers
             _logger.Fatal(ex);
         }
 
-        #endregion Fatal
+#endregion Fatal
     }
 }
