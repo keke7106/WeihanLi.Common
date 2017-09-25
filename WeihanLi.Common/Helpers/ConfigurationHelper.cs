@@ -16,7 +16,7 @@ namespace WeihanLi.Common.Helpers
         /// </summary>
         private static string siteroot = System.Web.Hosting.HostingEnvironment.MapPath("~/");
 #else
-        private static string siteroot = Assembly.GetEntryAssembly().Location;
+        private static string siteroot = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"\\";
 #endif
 
         /// <summary>

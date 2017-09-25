@@ -25,6 +25,8 @@ namespace WeihanLi.Common.Helpers
 
         void InfoFormat(string msgFormat, params object[] args);
 
+        void Info(string msg, Exception ex);
+
         #endregion Info
 
         #region Debug
@@ -33,7 +35,7 @@ namespace WeihanLi.Common.Helpers
 
         void DebugFormat(string msgFormat, params object[] args);
 
-        void Debug(string msg, Exception ex);        
+        void Debug(string msg, Exception ex);
 
         #endregion Debug
 
@@ -116,17 +118,17 @@ namespace WeihanLi.Common.Helpers
 
         #region Info
 
-        public virtual void Info(string msg)
+        public void Info(string msg)
         {
             _logger.Info(msg);
         }
 
-        public virtual void InfoFormat(string msgFormat, params object[] args)
+        public void InfoFormat(string msgFormat, params object[] args)
         {
-            Info(String.Format(msgFormat, args));
+            _logger.InfoFormat(msgFormat, args);
         }
 
-        public virtual void Info(string msg, Exception ex)
+        public void Info(string msg, Exception ex)
         {
             _logger.Info(msg, ex);
         }
@@ -135,22 +137,22 @@ namespace WeihanLi.Common.Helpers
 
         #region Debug
 
-        public virtual void Debug(string msg)
+        public void Debug(string msg)
         {
             _logger.Debug(msg);
         }
 
-        public virtual void DebugFormat(string msgFormat, params object[] args)
+        public void DebugFormat(string msgFormat, params object[] args)
         {
-            Debug(String.Format(msgFormat, args));
+            _logger.DebugFormat(msgFormat, args);
         }
 
-        public virtual void Debug(string msg, Exception ex)
+        public void Debug(string msg, Exception ex)
         {
             _logger.Debug(msg, ex);
         }
 
-        public virtual void Debug(Exception ex)
+        public void Debug(Exception ex)
         {
             _logger.Debug(ex.Message, ex);
         }
@@ -159,22 +161,22 @@ namespace WeihanLi.Common.Helpers
 
         #region Warn
 
-        public virtual void Warn(string msg)
+        public void Warn(string msg)
         {
             _logger.Warn(msg);
         }
 
-        public virtual void WarnFormat(string msgFormat, params object[] args)
+        public void WarnFormat(string msgFormat, params object[] args)
         {
-            Warn(String.Format(msgFormat, args));
+            _logger.WarnFormat(msgFormat, args);
         }
 
-        public virtual void Warn(string msg, Exception ex)
+        public void Warn(string msg, Exception ex)
         {
             _logger.Warn(msg, ex);
         }
 
-        public virtual void Warn(Exception ex)
+        public void Warn(Exception ex)
         {
             _logger.Warn(ex.Message, ex);
         }
@@ -183,22 +185,22 @@ namespace WeihanLi.Common.Helpers
 
         #region Error
 
-        public virtual void Error(string msg)
+        public void Error(string msg)
         {
             _logger.Error(msg);
         }
 
-        public virtual void ErrorFormat(string msgFormat, params object[] args)
+        public void ErrorFormat(string msgFormat, params object[] args)
         {
-            Error(String.Format(msgFormat, args));
+            _logger.ErrorFormat(msgFormat, args);
         }
 
-        public virtual void Error(string msg, Exception ex)
+        public void Error(string msg, Exception ex)
         {
             _logger.Error(msg, ex);
         }
 
-        public virtual void Error(Exception ex)
+        public void Error(Exception ex)
         {
             _logger.Error(ex.Message, ex);
         }
@@ -245,13 +247,14 @@ namespace WeihanLi.Common.Helpers
 #else
             _logger = LogManager.GetLogger(Assembly.GetEntryAssembly().FullName, type);
 #endif
+            DefaultLogProvider.Logger = _logger;
             foreach (var logProvider in _logProviders.Values)
             {
                 logProvider.Logger = _logger;
             }
         }
 
-#region LogInit
+        #region LogInit
 
         /// <summary>
         /// LogInit
@@ -292,124 +295,161 @@ namespace WeihanLi.Common.Helpers
             }
         }
 
-#endregion LogInit
+        #endregion LogInit
 
-#region Info
+        #region Info
 
-        public virtual void Info(string msg)
+        public void Info(string msg)
         {
+            DefaultLogProvider.Info(msg);
             foreach (var provider in _logProviders.Values)
             {
-                provider.Logger.Info(msg);
+                provider.Info(msg);
             }
         }
 
-        public virtual void InfoFormat(string msgFormat, params object[] args)
+        public void InfoFormat(string msgFormat, params object[] args)
         {
             Info(String.Format(msgFormat, args));
         }
 
-        public virtual void Info(string msg, Exception ex)
+        public void Info(string msg, Exception ex)
         {
-            _logger.Info(msg, ex);
+            DefaultLogProvider.Info(msg, ex);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Info(msg, ex);
+            }
         }
 
-#endregion Info
+        #endregion Info
 
-#region Debug
+        #region Debug
 
-        public virtual void Debug(string msg)
+        public void Debug(string msg)
         {
-            _logger.Debug(msg);
+            DefaultLogProvider.Debug(msg);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Debug(msg);
+            }
         }
 
-        public virtual void DebugFormat(string msgFormat, params object[] args)
+        public void DebugFormat(string msgFormat, params object[] args)
         {
             Debug(String.Format(msgFormat, args));
         }
 
-        public virtual void Debug(string msg, Exception ex)
+        public void Debug(string msg, Exception ex)
         {
-            _logger.Debug(msg, ex);
+            DefaultLogProvider.Debug(msg, ex);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Debug(msg, ex);
+            }
         }
 
-        public virtual void Debug(Exception ex)
+        public void Debug(Exception ex)
         {
-            _logger.Debug(ex.Message, ex);
+            Debug(ex.Message, ex);
         }
 
-#endregion Debug
+        #endregion Debug
 
-#region Warn
+        #region Warn
 
-        public virtual void Warn(string msg)
+        public void Warn(string msg)
         {
-            _logger.Warn(msg);
+            DefaultLogProvider.Warn(msg);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Warn(msg);
+            }
         }
 
-        public virtual void WarnFormat(string msgFormat, params object[] args)
+        public void WarnFormat(string msgFormat, params object[] args)
         {
             Warn(String.Format(msgFormat, args));
         }
 
-        public virtual void Warn(string msg, Exception ex)
+        public void Warn(string msg, Exception ex)
         {
-            _logger.Warn(msg, ex);
+            DefaultLogProvider.Warn(msg, ex);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Warn(msg, ex);
+            }
         }
 
-        public virtual void Warn(Exception ex)
+        public void Warn(Exception ex)
         {
-            _logger.Warn(ex.Message, ex);
+            Warn(ex.Message, ex);
         }
 
-#endregion Warn
+        #endregion Warn
 
-#region Error
+        #region Error
 
-        public virtual void Error(string msg)
+        public void Error(string msg)
         {
-            _logger.Error(msg);
+            DefaultLogProvider.Error(msg);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Error(msg);
+            }
         }
 
-        public virtual void ErrorFormat(string msgFormat, params object[] args)
+        public void ErrorFormat(string msgFormat, params object[] args)
         {
             Error(String.Format(msgFormat, args));
         }
 
-        public virtual void Error(string msg, Exception ex)
+        public void Error(string msg, Exception ex)
         {
-            _logger.Error(msg, ex);
+            DefaultLogProvider.Error(msg, ex);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Error(msg, ex);
+            }
         }
 
-        public virtual void Error(Exception ex)
+        public void Error(Exception ex)
         {
-            _logger.Error(ex.Message, ex);
+            Error(ex.Message, ex);
         }
 
-#endregion Error
+        #endregion Error
 
-#region Fatal
+        #region Fatal
 
         public void Fatal(string msg)
         {
-            _logger.Fatal(msg);
+            DefaultLogProvider.Fatal(msg);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Fatal(msg);
+            }
         }
 
         public void FatalFormat(string msgFormat, params object[] args)
         {
-            _logger.FatalFormat(msgFormat, args);
+            Fatal(String.Format(msgFormat, args));
         }
 
         public void Fatal(string msg, Exception ex)
         {
-            _logger.Fatal(msg, ex);
+            DefaultLogProvider.Fatal(msg, ex);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Fatal(msg, ex);
+            }
         }
 
         public void Fatal(Exception ex)
         {
-            _logger.Fatal(ex);
+            Fatal(ex);
         }
 
-#endregion Fatal
+        #endregion Fatal
     }
 }
