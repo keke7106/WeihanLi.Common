@@ -1,4 +1,4 @@
-# WeihanLi.Common
+# WeihanLi.Common [![WeihanLi.Common](https://img.shields.io/nuget/v/WeihanLi.Common.svg)](https://www.nuget.org/packages/WeihanLi.Common/)
 
 ## Build Status
 [![Build Status](https://travis-ci.org/WeihanLi/WeihanLi.Common.svg?branch=master)](https://travis-ci.org/WeihanLi/WeihanLi.Common)
