@@ -14,9 +14,9 @@ namespace WeihanLi.Common.Helpers
         /// <summary>
         /// 网站根路径
         /// </summary>
-        private static string siteroot = System.Web.Hosting.HostingEnvironment.MapPath("~/");
+        private static readonly string AppRoot = System.Web.Hosting.HostingEnvironment.IsHosted?System.Web.Hosting.HostingEnvironment.MapPath("~/"): System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
 #else
-        private static string siteroot = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"\\";
+        private static readonly string AppRoot = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"\\";
 #endif
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace WeihanLi.Common.Helpers
         public static string AppSettingMapPath(string key)
         {
             //拼接路径
-            string path = siteroot + AppSetting(key);
+            string path = AppRoot + AppSetting(key);
             return path;
         }
 
@@ -38,7 +38,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns>虚拟路径对应的物理路径</returns>
         public static string MapPath(string virtualPath)
         {
-            return siteroot + virtualPath;
+            return AppRoot + virtualPath;
         }
 
         /// <summary>
