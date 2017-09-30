@@ -9,7 +9,10 @@ namespace DotNetCoreSample
         {
             LogHelper.LogInit(ConfigurationHelper.MapPath("log4net.config"));
             Console.WriteLine("----------DotNetCoreSample----------");
-            ConfigurationHelperTest.TestConfigurationHelper();
+            
+            // ConfigurationHelperTest.TestConfigurationHelper();
+
+            RequestHelperTest.GetRequestParamTest();
 
             Console.ReadLine();
         }        
