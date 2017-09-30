@@ -1,38 +1,38 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Configuration;
-using System.Reflection;
-
-#if NET45
-using System.Web.Configuration;
-#endif
 
 namespace WeihanLi.Common.Helpers
 {
     public static class ConfigurationHelper
     {
-#if NET45
         /// <summary>
-        /// 网站根路径
+        /// 应用根目录
         /// </summary>
-        private static readonly string AppRoot = System.Web.Hosting.HostingEnvironment.IsHosted?System.Web.Hosting.HostingEnvironment.MapPath("~/"): System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
+#if NET45
+        private static readonly string AppRoot = System.Web.Hosting.HostingEnvironment.IsHosted ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : AppDomain.CurrentDomain.BaseDirectory;
 #else
-        private static readonly string AppRoot = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+"\\";
+        private static readonly string AppRoot = AppDomain.CurrentDomain.BaseDirectory;
 #endif
+        private static readonly NameValueCollection AppSettings;
+
+        static ConfigurationHelper()
+        {
+            AppSettings = ConfigurationManager.AppSettings;
+        }
 
         /// <summary>
         /// 获取配置文件中AppSetting节点的相对路径对应的绝对路径
         /// </summary>
-        /// <param name="key">相对路径设置的键值</param>
+        /// <param name="key">key</param>
         /// <returns>绝对路径</returns>
         public static string AppSettingMapPath(string key)
         {
-            //拼接路径
-            string path = AppRoot + AppSetting(key);
-            return path;
+            return AppRoot + AppSetting(key);
         }
 
         /// <summary>
-        /// 将虚拟路径转换为物理路径
+        /// 将虚拟路径转换为物理路径，相对路径转换为绝对路径
         /// </summary>
         /// <param name="virtualPath">虚拟路径</param>
         /// <returns>虚拟路径对应的物理路径</returns>
@@ -48,7 +48,18 @@ namespace WeihanLi.Common.Helpers
         /// <returns>键值对应的值</returns>
         public static string AppSetting(string key)
         {
-            return ConfigurationManager.AppSettings[key] ?? "";
+            return AppSettings[key];
+        }
+
+        /// <summary>
+        /// 获取配置文件中AppSetting节点的值
+        /// </summary>
+        /// <param name="key">设置的键值</param>
+        /// <param name="defaultValue">key不存在时默认值</param>
+        /// <returns>键值对应的值</returns>
+        public static string AppSetting(string key, string defaultValue)
+        {
+            return AppSettings[key] ?? defaultValue;
         }
 
         /// <summary>
@@ -58,8 +69,17 @@ namespace WeihanLi.Common.Helpers
         /// <returns>键值对应的值</returns>
         public static T AppSetting<T>(string key)
         {
-            var value = ConfigurationManager.AppSettings[key];
-            return value.To<T>();
+            return AppSettings[key].To<T>();
+        }
+
+        public static T AppSetting<T>(string key, T defaultValue)
+        {
+            return AppSettings[key].ToOrDefault(defaultValue);
+        }
+
+        public static T AppSetting<T>(string key, Func<T> defaultValueFactory)
+        {
+            return AppSettings[key].ToOrDefault(defaultValueFactory);
         }
 
         /// <summary>
