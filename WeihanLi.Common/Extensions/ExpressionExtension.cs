@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 
+// ReSharper disable once CheckNamespace
 namespace System.Linq
 {
     public static class ExpressionExtension

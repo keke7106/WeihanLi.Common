@@ -94,7 +94,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns></returns>
         public static int GetQueryInt(string key, int defaultValue)
         {
-            return ConvertHelper.StringToInt(HttpContext.Current.Request.QueryString[key], defaultValue);
+            return HttpContext.Current.Request.QueryString[key].ToOrDefault(defaultValue);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns></returns>
         public static int GetFormInt(string key, int defaultValue)
         {
-            return ConvertHelper.StringToInt(HttpContext.Current.Request.Form[key], defaultValue);
+            return HttpContext.Current.Request.Form[key].ToOrDefault(defaultValue);
         }
 
         /// <summary>
@@ -161,10 +161,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns></returns>
         public static string GetRequestString(string key, string defaultValue)
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormString(key, defaultValue);
-            else
-                return GetQueryString(key, defaultValue);
+            return HttpContext.Current.Request[key].ToOrDefault(defaultValue);
         }
 
         /// <summary>
@@ -174,10 +171,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns></returns>
         public static string GetRequestString(string key)
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormString(key);
-            else
-                return GetQueryString(key);
+            return HttpContext.Current.Request[key];
         }
 
         /// <summary>
@@ -188,10 +182,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns></returns>
         public static int GetRequestInt(string key, int defaultValue)
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormInt(key, defaultValue);
-            else
-                return GetQueryInt(key, defaultValue);
+            return HttpContext.Current.Request[key].ToOrDefault(defaultValue);
         }
 
         /// <summary>
@@ -201,10 +192,7 @@ namespace WeihanLi.Common.Helpers
         /// <returns></returns>
         public static int GetRequestInt(string key)
         {
-            if (HttpContext.Current.Request.Form[key] != null)
-                return GetFormInt(key);
-            else
-                return GetQueryInt(key);
+            return HttpContext.Current.Request[key].To<int>();
         }
 
         /// <summary>
@@ -255,10 +243,13 @@ namespace WeihanLi.Common.Helpers
         {
             string ip = string.Empty;
             if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null)
-                ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+            {
+                ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            }
             else
-                ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"].ToString();
-
+            {
+                ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
             if (string.IsNullOrEmpty(ip) || !ValidateHelper.IsIP(ip))
                 ip = "127.0.0.1";
             return ip;
@@ -307,7 +298,7 @@ namespace WeihanLi.Common.Helpers
         /// 获得请求客户端的操作系统类型
         /// </summary>
         /// <returns></returns>
-        public static string GetOSType()
+        public static string GetOsType()
         {
             string userAgent = HttpContext.Current.Request.UserAgent;
             if (userAgent == null)
@@ -320,6 +311,8 @@ namespace WeihanLi.Common.Helpers
                 type = "Windows XP";
             else if (userAgent.Contains("NT 6.2"))
                 type = "Windows 8";
+            else if (userAgent.Contains("NT 10.0"))
+                type = "Windows 10";
             else if (userAgent.Contains("android"))
                 type = "Android";
             else if (userAgent.Contains("iphone"))
@@ -356,7 +349,7 @@ namespace WeihanLi.Common.Helpers
         /// 获得请求客户端的操作系统名称
         /// </summary>
         /// <returns></returns>
-        public static string GetOSName()
+        public static string GetOsName()
         {
             string name = HttpContext.Current.Request.Browser.Platform;
             if (string.IsNullOrEmpty(name))

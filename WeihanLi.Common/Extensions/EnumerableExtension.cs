@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+// ReSharper disable once CheckNamespace
 namespace System.Collections.Generic
 {
     public static class EnumerableExtension

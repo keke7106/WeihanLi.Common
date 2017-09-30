@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace WeihanLi.Common.Extensions
+// ReSharper disable once CheckNamespace
+namespace System.IO
 {
+    // ReSharper disable once InconsistentNaming
     public static class IOExtension
     {
         /// <summary>

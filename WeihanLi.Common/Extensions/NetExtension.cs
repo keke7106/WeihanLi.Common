@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
+// ReSharper disable once CheckNamespace
 namespace System.Net
 {
     public static class NetExtension

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 
 using System.Linq;
 
+// ReSharper disable once CheckNamespace
 namespace System.Collections.Generic
 {
     /// <summary>
