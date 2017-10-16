@@ -8,8 +8,6 @@ namespace WeihanLi.Common.Helpers
 {
     public interface ILogProvider
     {
-        ILog Logger { get; set; }
-
         #region Init
 
         /// <summary>
@@ -248,10 +246,6 @@ namespace WeihanLi.Common.Helpers
             _logger = LogManager.GetLogger(Assembly.GetEntryAssembly().FullName, type);
 #endif
             DefaultLogProvider.Logger = _logger;
-            foreach (var logProvider in _logProviders.Values)
-            {
-                logProvider.Logger = _logger;
-            }
         }
 
         #region LogInit
@@ -447,7 +441,11 @@ namespace WeihanLi.Common.Helpers
 
         public void Fatal(Exception ex)
         {
-            Fatal(ex);
+            DefaultLogProvider.Fatal(ex);
+            foreach (var provider in _logProviders.Values)
+            {
+                provider.Fatal(ex);
+            }
         }
 
         #endregion Fatal

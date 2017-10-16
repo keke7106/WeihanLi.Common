@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using WeihanLi.Extensions;
 
 namespace WeihanLi.Common.Helpers
 {
     public static class ConvertHelper
     {
-#if NET45
         /// <summary>
         /// 利用反射和泛型
         /// </summary>
@@ -17,7 +17,6 @@ namespace WeihanLi.Common.Helpers
         {
             return dt.ToEntities<T>();
         }
-#endif
 
         /// <summary>
         /// 将object对象转换为Json数据

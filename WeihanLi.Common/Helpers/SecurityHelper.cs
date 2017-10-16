@@ -124,6 +124,7 @@ namespace WeihanLi.Common.Helpers
         /// MD5加密
         /// </summary>
         /// <param name="sourceString">原字符串</param>
+        /// <param name="isLower">加密后的字符串是否为小写</param>
         /// <returns>加密后字符串</returns>
         public static string MD5_Encrypt(string sourceString, bool isLower = false)
         {
@@ -149,8 +150,6 @@ namespace WeihanLi.Common.Helpers
         /// <summary>
         /// SHA256 加密
         /// </summary>
-        /// <param name="sourceString"></param>
-        /// <returns></returns>
         public static string SHA256_Encrypt(string sourceString, bool isLower = false)
         {
             if (String.IsNullOrEmpty(sourceString))
@@ -163,8 +162,6 @@ namespace WeihanLi.Common.Helpers
         /// <summary>
         /// SHA512_加密
         /// </summary>
-        /// <param name="sourceString"></param>
-        /// <returns></returns>
         public static string SHA512_Encrypt(string sourceString, bool isLower = false)
         {
             if (String.IsNullOrEmpty(sourceString))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using WeihanLi.Extensions;
 
 namespace WeihanLi.Common.Helpers
 {

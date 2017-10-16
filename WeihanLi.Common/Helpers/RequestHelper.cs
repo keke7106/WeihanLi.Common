@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.IO.Compression;
@@ -7,15 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-
-#if NET45
-using System.Web;
-using System.Net;
-using System.Security;
-using System.Diagnostics;
-using System.IO.Compression;
-using System.Collections.Specialized;
-#endif
+using WeihanLi.Extensions;
 
 namespace WeihanLi.Common.Helpers
 {
@@ -419,6 +410,7 @@ namespace WeihanLi.Common.Helpers
         #endregion 客户端信息
 
 #endif
+
         #region Http
 
         /// <summary>
@@ -568,6 +560,6 @@ namespace WeihanLi.Common.Helpers
             }
         }
 
-#endregion Http
+        #endregion Http
     }
 }

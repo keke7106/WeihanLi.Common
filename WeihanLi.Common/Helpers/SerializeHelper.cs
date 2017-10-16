@@ -5,6 +5,25 @@ using System.Xml.Serialization;
 
 namespace WeihanLi.Common.Helpers
 {
+    public interface ISerializer
+    {
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="obj">object</param>
+        /// <returns>bytes</returns>
+        byte[] Serialize<T>(T obj);
+
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="bytes">bytes</param>
+        /// <returns>obj</returns>
+        T Deserializer<T>(byte[] bytes);
+    }
+
     public static class SerializeHelper
     {
         /// <summary>
