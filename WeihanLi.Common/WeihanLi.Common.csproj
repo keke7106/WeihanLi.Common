@@ -3,14 +3,14 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
         <PackageId>WeihanLi.Common</PackageId>
-        <PackageVersion>1.0.0.8</PackageVersion>
+        <PackageVersion>1.0.0.9</PackageVersion>
         <Authors>WeihanLi</Authors>
         <Description>common .net libarary</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>.netstandard libarary</PackageReleaseNotes>
         <Copyright>Copyright 2017 (c) WeihanLi</Copyright>
         <PackageTags>common utility lib libarary</PackageTags>
-        <Version>1.0.0.8</Version>
+        <Version>1.0.0.9</Version>
         <PackageLicenseUrl>https://github.com/WeihanLi/WeihanLi.Common/blob/master/LICENSE</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/WeihanLi/WeihanLi.Common</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
