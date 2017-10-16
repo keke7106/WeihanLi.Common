@@ -1,8 +1,9 @@
 ﻿using System.IO;
+using System.Net;
 using System.Text;
 
 // ReSharper disable once CheckNamespace
-namespace System.Net
+namespace WeihanLi.Extensions
 {
     public static class NetExtension
     {

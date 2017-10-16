@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WeihanLi.Extensions;
 using Xunit;
 
 namespace WeihanLi.Common.Test.ExtensionsTest

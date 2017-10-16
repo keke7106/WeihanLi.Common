@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
 // ReSharper disable once CheckNamespace
-namespace System.Collections.Generic
+namespace WeihanLi.Extensions
 {
     public static class EnumerableExtension
     {

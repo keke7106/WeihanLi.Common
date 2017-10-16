@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Reflection;
 
-namespace WeihanLi.Common.Extensions
+// ReSharper disable once CheckNamespace
+namespace WeihanLi.Extensions
 {
     public static class ReflectionExtension
     {

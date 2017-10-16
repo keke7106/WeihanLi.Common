@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 
 // ReSharper disable once CheckNamespace
-namespace System.Data
+namespace WeihanLi.Extensions
 {
     public static class DataExtension
     {

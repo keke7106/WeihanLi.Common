@@ -1,8 +1,10 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 
 // ReSharper disable once CheckNamespace
-namespace System.Collections.Generic
+namespace WeihanLi.Extensions
 {
     /// <summary>
     /// CollectionExtension

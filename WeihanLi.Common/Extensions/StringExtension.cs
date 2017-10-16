@@ -3,7 +3,8 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Web;
 
-namespace WeihanLi.Common.Extensions
+// ReSharper disable once CheckNamespace
+namespace WeihanLi.Extensions
 {
     public static class StringExtension
     {

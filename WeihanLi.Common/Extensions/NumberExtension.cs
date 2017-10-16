@@ -1,5 +1,7 @@
-﻿// ReSharper disable once CheckNamespace
-namespace System
+﻿using System;
+
+// ReSharper disable once CheckNamespace
+namespace WeihanLi.Extensions
 {
     public static class NumberExtension
     {
@@ -47,7 +49,7 @@ namespace System
         /// <returns></returns>
         public static decimal Round(this decimal number, int digits = 2)
         {
-            return Math.Round(number, 2);
+            return Math.Round(number, digits);
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace System
         /// <returns></returns>
         public static double Round(this double number, int digits = 2)
         {
-            return Math.Round(number, 2);
+            return Math.Round(number, digits);
         }
 
         #endregion 数字格式修改

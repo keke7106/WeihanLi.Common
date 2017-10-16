@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.IO.Compression;
+using System.Text;
 
 // ReSharper disable once CheckNamespace
-namespace System.IO.Compression
+namespace WeihanLi.Extensions
 {
     /// <summary>
     /// CompressionExtension

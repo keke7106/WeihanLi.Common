@@ -1,7 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 // ReSharper disable once CheckNamespace
-namespace System.Linq
+namespace WeihanLi.Extensions
 {
     public static class ExpressionExtension
     {

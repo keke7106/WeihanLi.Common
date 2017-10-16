@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -12,7 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 // ReSharper disable once CheckNamespace
-namespace System
+namespace WeihanLi.Extensions
 {
     public static class CoreExtension
     {
@@ -3413,7 +3414,7 @@ namespace System
         /// <returns></returns>
         public static string SafeSubstring(this string str, int startIndex, int length)
         {
-            if (startIndex < 0 || startIndex > str.Length || length<0)
+            if (startIndex < 0 || startIndex > str.Length || length < 0)
             {
                 return String.Empty;
             }

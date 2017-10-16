@@ -1,14 +1,16 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data.Common;
+using System.Linq;
 
 #if NET45
 using System.Data.SqlClient;
 #endif
 
-using System.Linq;
-
 // ReSharper disable once CheckNamespace
-namespace System.Collections.Generic
+namespace WeihanLi.Extensions
 {
     /// <summary>
     /// DictionaryExtension
